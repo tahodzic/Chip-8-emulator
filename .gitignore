@@ -1,0 +1,8 @@
+# exclude everything except directory foo/bar
+/Debug
+/Chip8/Debug
+/Chip8/Chip8.vcxproj
+/Chip8/Chip8.vcxproj.filters
+/Chip8/Chip8.vcxproj.user
+/Chip8.sln
+/.vs
