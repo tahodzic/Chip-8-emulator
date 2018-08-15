@@ -52,7 +52,7 @@ void chip8::initialize(void){
 
 void chip8::emulateCycle(void){
 	// Fetch Opcode
-	Sleep(16);
+	Sleep(8);
 	opcode = memory[pc] << 8 | memory[pc + 1];
 	//printf("pc: 0x%X\topcode:%X\n", pc, opcode);
 
@@ -297,18 +297,12 @@ void chip8::emulateCycle(void){
 			switch(opcode & 0x00FF){
 				case 0x009E: //EX9E KeyOp 	if(key()==Vx) 
 				{
-					if(key[V[(opcode & 0x0F00) >> 8]] != 0)
+					if (key[V[(opcode & 0x0F00) >> 8]] != 0) {
 						pc += 4;
+					}
 					else
 						pc += 2;
-
-					/*for(int i = 0; i < 16; ++i){
-						key[i] = 0;
-					}*/
 				}
-			
-		
-	
 				break;
 		
 				case 0x00A1://EXA1 	KeyOp 	if(key()!=Vx) 	
@@ -338,7 +332,9 @@ void chip8::emulateCycle(void){
 					pc+= 2;
 				}
 				break;
-		
+				
+				//TODO: Find a way to not use the overloaded function setKeys(x)
+				//TODO: Fix that upon one key press the programm thinks the key is being held, resulting in endless movement
 				case 0x000A:  //FX0A 	KeyOp 	Vx = get_key() 	A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event)
 				{
 					char x;
@@ -554,6 +550,7 @@ void chip8::setKeys(void){
 	}*/
 }
 
+//function is (as of now) still needed, but there should be a better way (see comment at opcode FX0A)
 void chip8::setKeys(char x){
 		switch(x){
 		case '1':

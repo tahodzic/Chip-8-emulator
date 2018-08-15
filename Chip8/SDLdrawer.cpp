@@ -28,59 +28,35 @@ void SDLdrawer::setupScreen(void){
 	SDL_RenderClear(renderer); // fill the scene with black
 	SDL_RenderPresent(renderer); // copy to screen
 
-	//SDL_Delay(2000);
-
-    //Clean up
-    //SDL_DestroyWindow(MainWindow);
-    //SDL_Quit();
-
 }
 
 void SDLdrawer::drawGraphics(void){
 	bool empty = true;
 	
-	//array von rect kreieren von gfx[] und dann mit https://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects und  https://wiki.libsdl.org/SDL_UpdateWindowSurface updaten
+	//rect array to be displayed on screen
 	SDL_Rect rect[2048];
 	for(int i = 0; i < 2048; ++i){
 		if(chip8::gfx[i] == 1){
 
 			rect[i].x = ((i*10) % 640);
-			rect[i].y = 10*((i*10)/640);
+			rect[i].y = 10*i/64;
 			rect[i].h = 10;
 			rect[i].w = 10;
-			//SDL_RenderFillRect(renderer, &rect[i]);
-			//SDL_RenderPresent(renderer); // copy to screen
-			//empty = false;
 		}
 		if(chip8::gfx[i] == 0){
-			//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			rect[i].x = 0;
 			rect[i].y = 0;
 			rect[i].h = 0;
 			rect[i].w = 0;
-			//SDL_RenderFillRect(renderer, &rect[i]);
-			//SDL_RenderPresent(renderer); // copy to screen
-			//empty = false;
 		}
 	}
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect color (black)
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect color (black, background)
 	SDL_RenderClear(renderer);
-	//SDL_RenderPresent(renderer);
-
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // the rect color (solid white)
 	SDL_RenderFillRects(renderer, rect, 2048);
 	SDL_RenderPresent(renderer);
-	//if(empty){
-	//	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	//	SDL_RenderClear(renderer);
-	//	SDL_RenderPresent(renderer);
-	//}
-
-
-	//SDL_UpdateWindowSurfaceRects(MainWindow,rect,2048);
-	//SDL_UpdateWindowSurface(MainWindow);
-
 }
+
 void SDLdrawer::drawDot(SDL_Renderer* renderer, int x, int y){
 
 
